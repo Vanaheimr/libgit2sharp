@@ -31,8 +31,11 @@ namespace LibGit2Sharp.Core
             public LibraryLifetimeObject()
             {
                 Ensure.ZeroResult(git_libgit2_init());
-                // Ignore the error that this propagates. Call it in case openssl is being used.
-                git_openssl_set_locking();
+                if (AppDomain.CurrentDomain.IsDefaultAppDomain())
+                {
+                    // Ignore the error that this propagates. Call it in case openssl is being used.
+                    git_openssl_set_locking();
+                }
                 AddHandle();
             }
 
